@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/product_detail_bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>{{ product.name }}</h1>
+                    <span class="subheading">Подробная информация о товаре</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            {% if product.images.all %}
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in product.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100 img-fluid" alt="{{ product.name }}" loading="lazy">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            {% else %}
+                <img src="{% static 'img/default_product.jpg' %}" class="d-block w-100 img-fluid" alt="Нет изображения">
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p class="fw-bold">Цена: {{ product.price }} руб.</p>
+            <p>
+                <small class="text-muted">
+                    Опубликовано: {{ product.created_at|date:"d.m.Y H:i" }}<br>
+                    Автор: {% if product.author %}{{ product.author.username }}{% else %}Неизвестен{% endif %}
+                </small>
+            </p>
+            {% if product.author == request.user %}
+                <a href="{% url 'edit_product' product.id %}" class="btn btn-warning">Редактировать</a>
+                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Удалить</a>
+            {% endif %}
+
+            <!-- Добавляем ссылку на чат для товара -->
+            <a href="{% url 'chat:chat_product' product.id %}" class="btn btn-primary mt-3">Обсудить товар</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
