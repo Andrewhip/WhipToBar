@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Мои чаты{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/chat-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Ваши чаты</h1>
+                    <span class="subheading">Список доступных чатов</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 px-lg-5">
+    <h1>Мои чаты</h1>
+    <div class="chat-list">
+        {% for chat in chat_partners %}
+            <a href="{% url 'chat:chat_room' chat.partner.id %}" class="chat-item">
+                <div class="chat-avatar">
+                    {% if chat.partner.photo %}
+                        <img src="{{ chat.partner.photo.url }}" alt="{{ chat.partner.username }}">
+                    {% else %}
+                        <img src="/media/users/default.jpg" alt="Фото по умолчанию">
+                    {% endif %}
+                </div>
+                <div class="chat-info">
+                    <div class="chat-username">{{ chat.partner.username }}</div>
+                    <div class="chat-last-message">Последнее сообщение...</div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="no-chats">У вас пока нет активных чатов.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .chat-list {
+        margin-top: 20px;
+    }
+
+    .chat-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .chat-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .chat-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .chat-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .chat-info {
+        flex: 1;
+    }
+
+    .chat-username {
+        font-weight: bold;
+    }
+
+    .chat-last-message {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .no-chats {
+        text-align: center;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

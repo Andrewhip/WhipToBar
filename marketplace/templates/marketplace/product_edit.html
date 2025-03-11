@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/product_list_bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Редактор товара</h1>
+                    <span class="subheading">Измените информацию о товаре</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="custom-form-container">
+    <h2>Редактировать товар</h2>
+
+    <!-- Сообщения -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Ошибки формы -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Поле для названия товара -->
+        <div class="custom-user-box">
+            {{ form.name }}
+            <label for="{{ form.name.id_for_label }}">Название товара</label>
+        </div>
+
+        <!-- Поле для описания товара -->
+        <div class="custom-user-box">
+            {{ form.description }}
+            <label for="{{ form.description.id_for_label }}">Описание товара</label>
+        </div>
+
+        <!-- Поле для цены товара -->
+        <div class="custom-user-box">
+            {{ form.price }}
+            <label for="{{ form.price.id_for_label }}">Цена товара</label>
+        </div>
+
+        <!-- Текущие изображения товара -->
+        {% if product.images.all %}
+            <h4>Текущие изображения:</h4>
+            <ul>
+                {% for image in product.images.all %}
+                    <li>
+                        <img src="{{ image.image.url }}" alt="Текущее изображение" style="width: 100px;">
+                        <label>
+                            <input type="checkbox" name="delete_images" value="{{ image.id }}">
+                            Удалить
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Поле для загрузки новых изображений -->
+        <div class="custom-user-box">
+            {{ form.images }}
+            <label for="{{ form.images.id_for_label }}">Добавить новые изображения</label>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <button type="submit" class="custom-submit-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Сохранить изменения
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Чат с {{ other_user.username }}{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/chat-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Чат с {{ other_user.username }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 px-lg-5">
+    <!-- Контейнер для сообщений -->
+    <div id="messages" class="chat-container">
+        {% for message in messages %}
+            <div class="message {% if message.sender == request.user %}my-message{% else %}other-message{% endif %}">
+                <div class="message-avatar">
+                    {% if message.sender.photo %}
+                        <img src="{{ message.sender.photo.url }}" alt="{{ message.sender.username }}">
+                    {% else %}
+                        <img src="/media/users/default.jpg" alt="Фото по умолчанию">
+                    {% endif %}
+                </div>
+                <div class="message-content">
+                    <div class="message-sender">{{ message.sender.username }}</div>
+                    <div class="message-text">{{ message.content }}</div>
+                    <div class="message-time">{{ message.timestamp|date:"H:i" }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Поле ввода сообщений -->
+    <div class="input-container">
+        <input id="chat-message-input" type="text" placeholder="Введите сообщение..." class="form-control" />
+        <button id="send-button" class="btn btn-primary">Отправить</button>
+    </div>
+</div>
+
+<!-- Стили для чата -->
+<style>
+    .chat-container {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+    }
+
+    .message {
+        display: flex;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        max-width: 70%;
+    }
+
+    .my-message {
+        background-color: #007bff;
+        color: white;
+        margin-left: auto;
+        flex-direction: row-reverse;
+    }
+
+    .other-message {
+        background-color: #e9ecef;
+        color: black;
+        margin-right: auto;
+    }
+
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .message-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .message-content {
+        flex: 1;
+    }
+
+    .message-sender {
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+
+    .message-text {
+        margin: 5px 0;
+    }
+
+    .message-time {
+        font-size: 0.8em;
+        color: #666;
+        text-align: right;
+    }
+
+    .input-container {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    #chat-message-input {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    #send-button {
+        flex: 0 0 auto;
+    }
+</style>
+
+<!-- JavaScript для работы с WebSocket и бесконечной прокруткой -->
+<script>
+    let isLoading = false; // Флаг для предотвращения множественных запросов
+    let offset = {{ offset | default:10 }}; // Начальный offset из Django
+    const roomName = "{{ room_name }}";
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const socket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/room/' + roomName + '/'
+        );
+
+        // При успешном подключении
+        socket.onopen = function(e) {
+            console.log('WebSocket connection established');
+        };
+
+        // Обработка новых сообщений
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const message = data['message'];
+            const sender = data['sender'];
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Определяем URL аватарки
+            let avatarUrl = "/media/users/default.jpg";  // Фото по умолчанию
+            if (sender === "{{ current_user.username }}") {
+                {% if request.user.photo %}
+                    avatarUrl = "{{ request.user.photo.url }}";
+                {% endif %}
+            } else if (sender === "{{ other_user.username }}") {
+                {% if other_user.photo %}
+                    avatarUrl = "{{ other_user.photo.url }}";
+                {% endif %}
+            }
+
+            // Создаем HTML-элемент для нового сообщения
+            const messageElement = `
+                <div class="message ${sender === "{{ current_user.username }}" ? 'my-message' : 'other-message'}">
+                    <div class="message-avatar">
+                        <img src="${avatarUrl}" alt="${sender}">
+                    </div>
+                    <div class="message-content">
+                        <div class="message-sender">${sender}</div>
+                        <div class="message-text">${message}</div>
+                        <div class="message-time">${timestamp}</div>
+                    </div>
+                </div>
+            `;
+
+            // Добавляем сообщение в контейнер
+            document.getElementById('messages').innerHTML += messageElement;
+
+            // Прокручиваем вниз
+            scrollToBottom();
+        };
+
+        // Обработка закрытия соединения
+        socket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        // Отправка сообщения при нажатии Enter
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // Enter key
+                sendMessage();
+            }
+        };
+
+        // Отправка сообщения при нажатии на кнопку "Отправить"
+        document.querySelector('#send-button').onclick = function(e) {
+            sendMessage();
+        };
+
+        // Функция отправки сообщения
+        function sendMessage() {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value.trim();
+            if (message) {
+                socket.send(JSON.stringify({
+                    'message': message,
+                    'sender': "{{ current_user.username }}",
+                }));
+                messageInputDom.value = '';
+            }
+        }
+
+        // Функция прокрутки вниз
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Прокручиваем вниз после загрузки страницы
+        scrollToBottom();
+
+        // Бесконечная прокрутка
+        const messagesContainer = document.getElementById('messages');
+        messagesContainer.addEventListener('scroll', async () => {
+            if (messagesContainer.scrollTop === 0 && !isLoading) {
+                isLoading = true;
+
+                // Отправляем AJAX-запрос для загрузки старых сообщений
+                const response = await fetch(`/chat/load-messages/${roomName}/?offset=${offset}`);
+                const data = await response.json();
+
+                if (data.messages.length > 0) {
+                    // Добавляем новые сообщения в начало контейнера
+                    const newMessages = data.messages.map(msg => `
+                        <div class="message ${msg.sender === "{{ current_user.username }}" ? 'my-message' : 'other-message'}">
+                            <div class="message-avatar">
+                                <img src="${msg.avatar_url}" alt="${msg.sender}">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-sender">${msg.sender}</div>
+                                <div class="message-text">${msg.content}</div>
+                                <div class="message-time">${msg.timestamp}</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Сохраняем текущую высоту контента перед добавлением новых сообщений
+                    const oldScrollHeight = messagesContainer.scrollHeight;
+
+                    // Добавляем новые сообщения в начало контейнера
+                    messagesContainer.innerHTML = newMessages + messagesContainer.innerHTML;
+                    offset += data.messages.length; // Обновляем offset
+
+                    // Восстанавливаем позицию прокрутки
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight - oldScrollHeight;
+                }
+
+                isLoading = false;
+            }
+        });
+    });
+</script>
+{% endblock %}

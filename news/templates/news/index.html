@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Все о BMX: Новости и Видеоматериалы{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/home-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Больше Чем Спорт: BMX</h1>
+                    <span class="subheading">Адреналин на Двух Колёсах</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            {% if posts %}
+                {% for post in posts %}
+                <div class="post-preview mb-4">
+                    <!-- Заголовок поста -->
+                    <h2 class="post-title hover-text">
+                        <a href="{% url 'news_detail' post.id %}" class="no-underline">{{ post.text|truncatewords:20 }}</a>
+                    </h2>
+
+                    <!-- Проверяем, есть ли видео -->
+                    {% if post.video_url %}
+                    <div class="post-video mt-3">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            {{ post.video_url|safe }}
+                        </div>
+                    </div>
+                    {% elif post.video_file %}
+                    <div class="post-video mt-3">
+                        <video controls class="img-fluid">
+                            <source src="{{ post.video_file.url }}" type="video/mp4">
+                            Ваш браузер не поддерживает тег video.
+                        </video>
+                    </div>
+                    {% endif %}
+
+                    <!-- Проверяем, есть ли изображение -->
+                    {% if post.image %}
+                    <div class="post-image mt-3">
+                        <img src="{{ post.image.url }}" alt="Изображение для новости #{{ post.id }}" class="img-fluid">
+                    </div>
+                    {% endif %}
+
+                    <!-- Дата публикации -->
+                    <p class="post-meta mt-3">Опубликовано {{ post.published_at|date:"j F Y" }}</p>
+
+                    <hr class="my-4" />
+                </div>
+                {% endfor %}
+
+                <!-- Пагинация -->
+                {% if is_paginated %}
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Первая">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Следующая">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Последняя">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="text-center">Постов пока нет. Добавьте первый!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Стили для заголовков -->
+<style>
+    /* Новый класс для заголовков */
+    .no-underline {
+        text-decoration: none !important; /* Убираем подчеркивание */
+        color: #333; /* Цвет текста (темно-серый) */
+        transition: all 0.3s ease; /* Плавный переход */
+        font-weight: bold; /* Жирный шрифт */
+    }
+
+    /* Стиль при наведении */
+    .no-underline:hover {
+        color: #007bff; /* Изменение цвета текста (синий) */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Легкая тень */
+        transform: scale(1.02); /* Легкое увеличение */
+    }
+</style>
+{% endblock %}

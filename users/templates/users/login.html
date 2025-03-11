@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/home-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Вход в систему</h1>
+                    <span class="subheading">Пожалуйста, авторизуйтесь</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="custom-form-container">
+  <h2>{{ title }}</h2>
+
+  {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+          {% for error in form.non_field_errors %}
+              {{ error }}
+          {% endfor %}
+      </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <div class="custom-user-box">
+      {{ form.username }}
+      <label for="id_username">Логин</label>
+    </div>
+
+    <div class="custom-user-box">
+      {{ form.password }}
+      <label for="id_password">Пароль</label>
+    </div>
+
+    <button type="submit" class="custom-submit-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Войти
+    </button>
+    <p><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
+  </form>
+
+  <!-- Блок авторизации через GitHub -->
+  <div class="github-login-container">
+    <p>Или войти через:</p>
+    <a href="{% url 'social:begin' 'github' %}" class="github-login">
+      <img src="/media/social-auth/github.png" alt="GitHub" class="github-icon">
+    </a>
+  </div>
+</div>
+{% endblock %}

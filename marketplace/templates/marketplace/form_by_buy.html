@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/product_list_bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Добавить товар</h1>
+                    <span class="subheading">Заполните форму ниже</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="custom-form-container">
+    <h2>Добавить товар</h2>
+
+    {% if form.errors %}
+        <div class="error-messages">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="custom-user-box">
+            {{ form.name }}
+            <label for="id_name">Название товара</label>
+        </div>
+
+        <div class="custom-user-box">
+            {{ form.price }}
+            <label for="id_price">Цена товара</label>
+        </div>
+
+        <div class="custom-user-box">
+            {{ form.description }}
+            <label for="id_description">Описание товара</label>
+        </div>
+
+        <div class="custom-user-box">
+            {{ form.images }}
+            <label for="id_images">Добавить изображения</label>
+        </div>
+
+        <button type="submit" class="custom-submit-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Добавить товар
+        </button>
+    </form>
+</div>
+
+<script>
+    const fileInput = document.getElementById('id_images');
+    const fileNameSpan = document.getElementById('custom-file-name');
+
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileNameSpan.textContent = `${this.files.length} файлов выбрано`;
+        } else {
+            fileNameSpan.textContent = 'Файлы не выбраны';
+        }
+    });
+</script>
+{% endblock %}

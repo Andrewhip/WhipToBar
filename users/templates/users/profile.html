@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/profile-bg.jpg' %}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Профиль пользователя</h1>
+          <span class="subheading">Редактируйте свои данные</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Фотография пользователя -->
+    <div class="profile-img">
+      {% if user.photo %}
+        <img src="{{ user.photo.url }}" alt="Фото пользователя">
+      {% else %}
+        <img src="/media/users/default.jpg" alt="Фото по умолчанию">
+      {% endif %}
+    </div>
+
+    <!-- Поля формы -->
+    {{ form.as_p }}
+
+    <!-- Кнопка сохранения изменений -->
+    <button type="submit" class="custom-submit-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Сохранить изменения
+    </button>
+  </form>
+
+  <!-- Ссылка на смену пароля -->
+  <a href="{% url 'users:password_change' %}" class="password-change-link">Сменить пароль</a>
+</div>
+{% endblock %}

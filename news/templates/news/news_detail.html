@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Детали Поста{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/news_detail-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Больше Чем Спорт: BMX</h1>
+                    <span class="subheading">Адреналин на Двух Колёсах</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-content">
+                <h1>{{ post.title }}</h1>
+                <p>{{ post.text }}</p>
+
+                <!-- Видео -->
+                <!-- Проверяем, есть ли видео -->
+                {% if post.video_url %}
+                <div class="post-video mt-3">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {{ post.video_url|safe }}
+                    </div>
+                </div>
+                {% elif post.video_file %}
+                <div class="post-video mt-3">
+                    <video controls class="img-fluid">
+                        <source src="{{ post.video_file.url }}" type="video/mp4">
+                        Ваш браузер не поддерживает тег video.
+                    </video>
+                </div>
+                {% endif %}
+
+                <!-- Изображение -->
+                {% if post.image %}
+                <div class="post-image mt-3">
+                    <img src="{{ post.image.url }}" alt="Изображение для новости" class="img-fluid">
+                </div>
+                {% endif %}
+
+                <!-- Дата публикации -->
+                <p class="post-meta mt-3">Опубликовано {{ post.published_at|date:"j F Y" }}</p>
+            </div>
+
+
+            <!-- Форма добавления комментария -->
+            <div class="mt-5">
+                <h3 class="mb-3">Добавить комментарий</h3>
+                <form method="POST" class="card p-4 shadow-sm rounded bg-light">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea name="text" id="id_text" class="form-control" rows="4"
+                                  placeholder="Оставьте свой комментарий..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Отправить</button>
+                </form>
+            </div>
+
+
+            <!-- Список комментариев -->
+            <div class="mt-5">
+                <h3>Комментарии</h3>
+                {% for comment in comments %}
+                    <div class="comment mb-4 p-3 border rounded">
+                        <div class="d-flex align-items-center">
+                            <div class="profile-img">
+                                <img src="{{ comment.user_photo }}" alt="Фото пользователя" class="rounded-circle" width="40" height="40">
+                            </div>
+                            <div class="ms-3">
+                                <strong>{{ comment.user.username }}</strong> <span class="text-muted">{{ comment.created_at|date:"j F Y, H:i" }}</span>
+                            </div>
+                        </div>
+                        <p class="mt-2">{{ comment.text }}</p>
+                    </div>
+                {% empty %}
+                    <p>Нет комментариев.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

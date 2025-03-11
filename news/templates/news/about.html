@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Обо мне{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/profile-bg.jpg' %}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Обо мне</h1>
+          <span class="subheading">Информация о проекте и авторе</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Основной текст -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="about-me-box p-4 shadow-sm rounded">
+                <h2 class="text-center mb-4">Привет!</h2>
+                <p class="lead text-muted">
+                    Меня зовут Андрей Синицын, и этот сайт — мой пет-проект. Я создал его, чтобы объединить любителей BMX со всего мира.
+                    Этот проект помогает райдерам делиться опытом, находить друзей и учиться новым трюкам.
+                </p>
+                <p>
+                    Сейчас я готовлюсь к собеседованиям, и этот проект является частью моего портфолио.
+                    Он демонстрирует мои навыки в разработке веб-приложений с использованием Django, Channels, Redis и других технологий.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Раздел "Функционал проекта" -->
+    <h3 class="mt-5 text-center">Функционал проекта</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <ul class="list-unstyled">
+                <li>
+                    <strong>Парсинг новостей:</strong> На сайте автоматически отображаются новости из группы ВКонтакте, связанные с BMX.
+                    Это позволяет пользователям быть в курсе последних событий в мире BMX.
+                </li>
+                <li>
+                    <strong>Барахолка:</strong> Пользователи могут добавлять объявления о продаже или покупке BMX-оборудования.
+                    При добавлении нового товара я получаю уведомление в Telegram для модерации.
+                </li>
+                <li>
+                    <strong>Чат:</strong> Реализован чат в реальном времени, где пользователи могут общаться друг с другом.
+                    Чат использует WebSocket через Django Channels и Redis для обеспечения высокой производительности.
+                </li>
+                <li>
+                    <strong>Восстановление пароля:</strong> Реализована система восстановления пароля через email, которая работает корректно даже при запуске через Daphne.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Раздел "Об авторе" -->
+    <h3 class="mt-5 text-center">Об авторе</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <img src="{% static 'assets/img/team1.jpg' %}" class="card-img-top rounded-circle img-fluid" alt="Фото автора">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Андрей Синицын</h5>
+                    <p class="card-text">
+                        Основатель проекта, любитель BMX, разработчик этого сайта.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Раздел "Технологии" -->
+    <h3 class="mt-5 text-center">Технологии, которые я использовал</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <ul class="list-unstyled">
+                <li><strong>Django:</strong> Backend-разработка и управление базой данных.</li>
+                <li><strong>Channels & Redis:</strong> Реализация WebSocket для чата в реальном времени.</li>
+                <li><strong>HTML/CSS/JavaScript:</strong> Фронтенд и интерактивность.</li>
+                <li><strong>Bootstrap:</strong> Адаптивный дизайн и стиль.</li>
+                <li><strong>Telegram Bot API:</strong> Уведомления в Telegram о новых товарах на барахолке.</li>
+                <li><strong>VK API:</strong> Парсинг новостей из группы ВКонтакте.</li>
+                <li><strong>Redis:</strong> Кэширование данных и управление WebSocket-соединениями.</li>
+                <li><strong>Pillow:</strong> Обработка изображений (например, аватаров пользователей).</li>
+                <li><strong>PyJWT:</strong> Работа с JSON Web Tokens для аутентификации.</li>
+                <li><strong>Requests:</strong> HTTP-запросы для взаимодействия с внешними API (например, VK API).</li>
+                <li><strong>Social Auth:</strong> Интеграция OAuth2 для авторизации через социальные сети (например, GitHub).</li>
+                <li><strong>Twisted:</strong> Поддержка асинхронных операций для работы с WebSocket.</li>
+                <li><strong>Daphne:</strong> ASGI-сервер для запуска приложения в production-среде.</li>
+                <li><strong>PyOpenSSL:</strong> Безопасное взаимодействие с SSL/TLS для email и API.</li>
+                <li><strong>Automat:</strong> Управление состояниями для сложных асинхронных процессов.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Стили -->
+<style>
+    /* Общие стили */
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: #007bff;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .about-me-box {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .about-me-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .rounded-circle {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin: 0 auto 15px;
+        border: 3px solid #007bff;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
