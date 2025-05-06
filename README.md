@@ -65,6 +65,4 @@
 **Email:** senka34@mail.ru  
 **Telegram:** [@andrewhip](https://t.me/andrewhip)
 
-## 📝 Лицензия
 
-Проект распространяется под лицензией **MIT License**.
