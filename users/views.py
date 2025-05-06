@@ -57,3 +57,7 @@ class UserPasswordChange(PasswordChangeView):
     template_name = "users/password_change_form.html"
     extra_context = {'title': "Изменение пароля"}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

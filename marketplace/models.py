@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+<<<<<<< HEAD
 from django.urls import reverse
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название')
@@ -12,10 +15,13 @@ class Product(models.Model):
     # Это поле не обязательно для продукта, так как изображения будут храниться в ProductImage
     image = models.ImageField(upload_to='marketplace/product_images/', verbose_name='Изображение', null=True, blank=True)
 
+<<<<<<< HEAD
     def get_absolute_url(self):
         # Возвращает URL страницы подробного описания продукта (или другого, соответствующего URL)
         return reverse('product_detail', args=[str(self.id)])
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
     def __str__(self):
         return self.name
 

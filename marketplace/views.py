@@ -6,6 +6,7 @@ from .models import Product, ProductImage
 from .forms import ProductForm
 from django.urls import reverse
 
+<<<<<<< HEAD
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -16,6 +17,8 @@ from .models import Product, ProductImage
 from .forms import ProductForm
 
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 class AddProductView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -23,15 +26,22 @@ class AddProductView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('product_list')
 
     def form_valid(self, form):
+<<<<<<< HEAD
         # Сохраняем продукт
         product = form.save(commit=False)
         product.author = self.request.user
         product.save()
+=======
+        product = form.save(commit=False)
+        product.author = self.request.user
+        product.save()  # Сохраняем продукт
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
         # Загружаем изображения
         images = self.request.FILES.getlist('images')
         if images:
             for image in images:
+<<<<<<< HEAD
                 ProductImage.objects.create(product=product, image=image)
 
         # Возвращаем стандартный ответ
@@ -39,6 +49,11 @@ class AddProductView(LoginRequiredMixin, CreateView):
 
 
 
+=======
+                ProductImage.objects.create(product=product, image=image)  # Привязываем изображение к продукту
+
+        return redirect(self.success_url)
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 
 class ProductListView(ListView):
@@ -52,7 +67,14 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
+<<<<<<< HEAD
 
+=======
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic.edit import UpdateView
+from .models import Product
+from .forms import ProductForm
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 
 class ProductEditView(UpdateView):
@@ -61,6 +83,7 @@ class ProductEditView(UpdateView):
     template_name = 'marketplace/product_edit.html'
 
     def form_valid(self, form):
+<<<<<<< HEAD
         # Получаем объект продукта
         product = form.save(commit=False)
         product.save()
@@ -76,6 +99,13 @@ class ProductEditView(UpdateView):
             ProductImage.objects.create(product=product, image=image)
 
         return super().form_valid(form)
+=======
+        response = super().form_valid(form)
+        images = self.request.FILES.getlist('images')  # Получаем список файлов
+        for image in images:
+            ProductImage.objects.create(product=self.object, image=image)
+        return response
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
     def get_object(self, queryset=None):
         return get_object_or_404(Product, pk=self.kwargs['pk'])

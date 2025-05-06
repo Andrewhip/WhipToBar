@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<<<<<<< HEAD
 {% block title %}Детали Поста{% endblock %}
+=======
+{% block title %}{{ post.title }}{% endblock %}
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 {% block header %}
 <header class="masthead" style="background-image: url('{% static 'assets/img/news_detail-bg.jpg' %}')">
@@ -9,8 +13,13 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
+<<<<<<< HEAD
                     <h1>Больше Чем Спорт: BMX</h1>
                     <span class="subheading">Адреналин на Двух Колёсах</span>
+=======
+                    <h1>{{ post.title }}</h1>
+                    <h2 class="subheading">{{ post.subtitle }}</h2>
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
                 </div>
             </div>
         </div>
@@ -23,6 +32,7 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="post-content">
+<<<<<<< HEAD
                 <h1>{{ post.title }}</h1>
                 <p>{{ post.text }}</p>
 
@@ -30,10 +40,19 @@
                 <!-- Проверяем, есть ли видео -->
                 {% if post.video_url %}
                 <div class="post-video mt-3">
+=======
+                <!-- Текст поста -->
+                <p>{{ post.text }}</p>
+
+                <!-- Видео (если оно есть) -->
+                {% if post.video_url %}
+                <div class="post-video mt-4">
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
                     <div class="embed-responsive embed-responsive-16by9">
                         {{ post.video_url|safe }}
                     </div>
                 </div>
+<<<<<<< HEAD
                 {% elif post.video_file %}
                 <div class="post-video mt-3">
                     <video controls class="img-fluid">
@@ -47,12 +66,21 @@
                 {% if post.image %}
                 <div class="post-image mt-3">
                     <img src="{{ post.image.url }}" alt="Изображение для новости" class="img-fluid">
+=======
+                {% endif %}
+
+                <!-- Проверяем, есть ли изображение -->
+                {% if post.image %}
+                <div class="post-image mt-3">
+                    <img src="{{ post.image.url }}" alt="Изображение для новости #{{ post.id }}" class="img-fluid">
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
                 </div>
                 {% endif %}
 
                 <!-- Дата публикации -->
                 <p class="post-meta mt-3">Опубликовано {{ post.published_at|date:"j F Y" }}</p>
             </div>
+<<<<<<< HEAD
 
 
             <!-- Форма добавления комментария -->
@@ -92,3 +120,9 @@
     </div>
 </div>
 {% endblock %}
+=======
+        </div>
+    </div>
+</div>
+{% endblock %}
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

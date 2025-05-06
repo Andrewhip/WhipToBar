@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 {% block title %}Товары на барахолке{% endblock %}
 
 {% block header %}
@@ -20,6 +23,7 @@
 
 {% block content %}
 <div class="container mt-5 product-page">
+<<<<<<< HEAD
     <!-- Заголовок и кнопка -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mb-0">Товары</h1>
@@ -27,6 +31,9 @@
     </div>
 
     <!-- Список товаров -->
+=======
+    <h1>Товары</h1>
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
     <div class="row">
         {% for product in products %}
             <div class="col-md-4 mb-4">
@@ -52,5 +59,9 @@
             </div>
         {% endfor %}
     </div>
+<<<<<<< HEAD
+=======
+    <a href="{% url 'add_product' %}" class="btn btn-primary mt-3">Добавить новый товар</a>
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 </div>
 {% endblock %}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Post, Comment
@@ -61,10 +62,36 @@ class NewsDetailView(DetailView):
 
         return redirect('news_detail', pk=post.pk)
 
+=======
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .models import Post
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'news/index.html'  # Шаблон для главной страницы
+    context_object_name = 'posts'  # Название переменной, через которую мы будем обращаться к постам в шаблоне
+    paginate_by = 5  # Количество постов на странице
+
+    def get_queryset(self):
+        # Получаем все посты и сортируем по дате публикации (по убыванию)
+        return Post.objects.all().order_by()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)  # Вывод контекста в консоль
+        return context
+
+class NewsDetailView(DetailView):
+    model = Post
+    template_name = 'news/news_detail.html'  # Укажите ваш шаблон
+    context_object_name = 'post'  # Имя объекта в контексте шаблона
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 
 def about(request):
     return render(request, 'news/about.html')
+<<<<<<< HEAD
 
 def custom_404(request, exception):
     return render(request, 'errors/404.html', status=404)
@@ -77,3 +104,5 @@ def custom_403(request, exception):
 
 def custom_400(request, exception):
     return render(request, 'errors/400.html', status=400)
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

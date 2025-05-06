@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -98,3 +99,9 @@ def load_messages(request, room_name):
         })
 
     return JsonResponse({'messages': serialized_messages})
+=======
+from django.shortcuts import render
+
+def chat_view(request):
+    return render(request, 'chat/chat_room.html')
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+<<<<<<< HEAD
 from django.conf.urls import handler404, handler500, handler403, handler400
 from django.contrib.sitemaps.views import sitemap
 from news.sitemaps import StaticViewSitemap, NewsSitemap, ProductSitemap
@@ -28,10 +29,13 @@ sitemaps = {
     'news': NewsSitemap,
     'products': ProductSitemap,
 }
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
+<<<<<<< HEAD
     path('marketplace/', include('marketplace.urls')),
     path('users/', include('users.urls', namespace="users")),
     path('social-auth/', include('social_django.urls', namespace='social')),
@@ -50,3 +54,10 @@ handler400 = 'news.views.custom_400'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+=======
+    path('marketplace/' , include('marketplace.urls')),
+    path('users/' , include('users.urls', namespace="users")),
+    path('social-auth/', include('social_django.urls', namespace='social')),
+    path("chat/", include("chat.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

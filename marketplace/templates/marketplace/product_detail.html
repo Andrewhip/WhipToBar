@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+<<<<<<< HEAD
 
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block header %}
 <header class="masthead" style="background-image: url('{% static 'assets/img/product_list_bg.jpg' %}')">
+=======
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('{% static 'assets/img/product_detail_bg.jpg' %}')">
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -54,12 +61,16 @@
                     Автор: {% if product.author %}{{ product.author.username }}{% else %}Неизвестен{% endif %}
                 </small>
             </p>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
             {% if product.author == request.user %}
                 <a href="{% url 'edit_product' product.id %}" class="btn btn-warning">Редактировать</a>
                 <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Удалить</a>
             {% endif %}
 
+<<<<<<< HEAD
             <!-- Кнопка чата, доступна только авторизованным пользователям -->
             {% if request.user.is_authenticated and product.author != request.user %}
                 <!-- Закомментированная ссылка на чат -->
@@ -68,6 +79,10 @@
             {% elif not request.user.is_authenticated %}
                 <p><a href="{% url 'users:login' %}">Войдите</a>, чтобы написать продавцу.</p>
             {% endif %}
+=======
+            <!-- Добавляем ссылку на чат для товара -->
+            <a href="{% url 'chat:chat_product' product.id %}" class="btn btn-primary mt-3">Обсудить товар</a>
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
         </div>
     </div>
 </div>

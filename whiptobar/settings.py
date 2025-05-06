@@ -14,24 +14,39 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, LOGIN_URL, EMAIL_HOST_USER, \
     AUTH_USER_MODEL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY", "замени_на_дефолтный_ключ")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,12 +56,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django_extensions',
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
     'news',
     'marketplace',
     'users',
     'social_django',
     'chat',
+<<<<<<< HEAD
     'channels',
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -62,12 +81,21 @@ MIDDLEWARE = [
     # "django.middleware.cache.UpdateCacheMiddleware",
     'django.middleware.common.CommonMiddleware',
     # "django.middleware.cache.FetchFromCacheMiddleware",
+=======
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+<<<<<<< HEAD
 # CACHE_MIDDLEWARE_ALIAS = 'default'
 # CACHE_MIDDLEWARE_SECONDS = 10
 # CACHE_MIDDLEWARE_KEY_PREFIX = 'whiptobar'
@@ -77,6 +105,8 @@ MIDDLEWARE = [
 # ]
 
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 ROOT_URLCONF = 'whiptobar.urls'
 
 TEMPLATES = [
@@ -95,6 +125,7 @@ TEMPLATES = [
     },
 ]
 
+<<<<<<< HEAD
 WSGI_APPLICATION = 'whiptobar.wsgi.application'
 ASGI_APPLICATION = "whiptobar.asgi.application"
 
@@ -103,10 +134,18 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [os.getenv("REDIS_URL")],
+=======
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
         },
     },
 }
 
+<<<<<<< HEAD
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -114,21 +153,32 @@ CACHES = {
     }
 }
 
+=======
+WSGI_APPLICATION = 'whiptobar.wsgi.application'
+ASGI_APPLICATION = "whiptobar.asgi.application"
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
+<<<<<<< HEAD
+=======
+            'level': 'DEBUG',
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
+<<<<<<< HEAD
         'chat.consumers': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
         'django': {
             'handlers': ['console'],
             'level': 'DEBUG',
@@ -142,6 +192,7 @@ LOGGING = {
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv("DB_NAME"),
         'USER': os.getenv("DB_USER"),
@@ -155,6 +206,14 @@ DATABASES = {
     # }
 }
 
+=======
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -173,6 +232,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -185,6 +248,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+<<<<<<< HEAD
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -195,6 +259,19 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"  # Для работы с daphne
 
 MEDIA_URL = '/media/'
+=======
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+MEDIA_URL = '/media/'  # URL-префикс для медиафайлов
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
@@ -230,9 +307,13 @@ DEFAULT_USER_IMAGE = MEDIA_URL + 'users/default.png'
 SOCIAL_AUTH_GITHUB_KEY = os.getenv("SOCIAL_AUTH_GITHUB_KEY")
 SOCIAL_AUTH_GITHUB_SECRET = os.getenv("SOCIAL_AUTH_GITHUB_SECRET")
 
+<<<<<<< HEAD
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 CAPTCHA_IMAGE_SIZE = (150, 50)  # Размер изображения
 CAPTCHA_LENGTH = 5              # Количество символов
 CAPTCHA_FONT_SIZE = 30          # Размер шрифта
 CAPTCHA_NOISE_FUNCTIONS = None
+=======
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832

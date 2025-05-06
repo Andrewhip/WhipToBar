@@ -4,7 +4,10 @@ import os
 import sys
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'whiptobar.settings')
@@ -19,5 +22,11 @@ def main():
     execute_from_command_line(sys.argv)
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 7073313818c546dbec1a69bc6d606b01439d6832
 if __name__ == '__main__':
     main()
