@@ -11,7 +11,7 @@ class Post(models.Model):
     ]
 
     text = models.TextField()  # Основное содержимое поста
-    published_at = models.DateTimeField(auto_now_add=True)  # Дата публикации
+    published_at = models.DateTimeField(auto_now_add=True,)  # Дата публикации
     video_url = models.TextField(null=True, blank=True)  # Ссылка на видео
     video_file = models.FileField(upload_to='videos/', null=True, blank=True)  # Загруженное видео
     image = models.ImageField(upload_to='posts_images/', null=True, blank=True)  # Изображение

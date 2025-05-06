@@ -10,6 +10,6 @@ def notify_about_new_product(sender, instance, created, **kwargs):
         message = (
             "Новый товар добавлен!\n\n"
             f"Название: {instance.name}\n"
-            f"Ссылка: http://127.0.0.1:8000{instance.get_absolute_url()}"
+            f"Ссылка: http://whiptobar.ru{instance.get_absolute_url()}"
         )
         asyncio.run(send_telegram_message(message))  # Используем asyncio.run

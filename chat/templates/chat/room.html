@@ -134,7 +134,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         const socket = new WebSocket(
-            'ws://' + window.location.host + '/ws/chat/room/' + roomName + '/'
+            'wss://' + window.location.host + '/ws/chat/room/' + roomName + '/'
         );
 
         // При успешном подключении

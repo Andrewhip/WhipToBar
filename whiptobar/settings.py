@@ -102,7 +102,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],  # Redis
+            "hosts": [os.getenv("REDIS_URL")],
         },
     },
 }
@@ -110,9 +110,10 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": os.getenv("REDIS_URL", "redis://redis:6379/0"),
     }
 }
+
 
 LOGGING = {
     'version': 1,
@@ -142,11 +143,11 @@ LOGGING = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'whiptobar_db',
-        'USER': 'whiptobar',
-        'PASSWORD': '1820051742Ab',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
